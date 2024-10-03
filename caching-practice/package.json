@@ -2,20 +2,18 @@
   "name": "caching-practice",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.21.0"
+    "express": "^4.21.0",
+    "node-cache": "^5.1.2"
   },
   "devDependencies": {
-    "@types/express": "^5.0.0",
-    "@types/node": "^22.7.4",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.6.2"
+    "nodemon": "^3.1.7"
   }
 }
