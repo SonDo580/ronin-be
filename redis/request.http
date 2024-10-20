@@ -1,0 +1,9 @@
+### Booking Request
+POST http://localhost:5000/api/bookings
+Content-Type: application/json
+Idempotence-Key: unique-key-12345
+
+{
+  "flightCode": "FA634",
+  "seatCode": "A34_S012C"
+}
