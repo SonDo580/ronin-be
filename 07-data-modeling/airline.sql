@@ -1,4 +1,5 @@
 -- Tables for flight-booking feature
+-- (this is for PostgreSQL)
 
 CREATE TABLE bookings (
     id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
