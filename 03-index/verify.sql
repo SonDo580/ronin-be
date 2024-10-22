@@ -41,7 +41,7 @@ create index idx_book_ref_passenger_id on tickets_0 (book_ref, passenger_id);
 
 -- 5. Pattern matching - only work for prefix match
 explain select * from tickets_0 t0 where passenger_name LIKE 'GA%';
-explain select * from tickets_0 t0  where ticket_no LIKE '%NOVA';
+explain select * from tickets_0 t0  where passenger_name LIKE '%NOVA';
 -- Seems like both queries use sequential scan. 
 -- May be the table size was too small
 
