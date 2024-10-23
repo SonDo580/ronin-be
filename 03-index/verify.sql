@@ -42,8 +42,15 @@ create index idx_book_ref_passenger_id on tickets_0 (book_ref, passenger_id);
 -- 5. Pattern matching - only work for prefix match
 explain select * from tickets_0 t0 where passenger_name LIKE 'GA%';
 explain select * from tickets_0 t0  where passenger_name LIKE '%NOVA';
--- Seems like both queries use sequential scan. 
--- May be the table size was too small
+-- Both queries use sequential scan. 
+-- The first query doesn't work as expected
+
+-- Fix: add collate "C" when creating index
+--      (how to compare and sort text strings)
+create index idx_passenger_name_1 on tickets_0 (passenger_name collate "C");
+
+explain select * from tickets_0 t0 where passenger_name LIKE 'GA%';
+--  Bitmap Index Scan on idx_passenger_name_1  (cost=0.00..733.02 rows=53259 width=0)
 
 -- 6. Covering index -> don't need to check clustered index
 explain select book_ref, passenger_id from tickets_0 t0 where book_ref = 'B2E809';
