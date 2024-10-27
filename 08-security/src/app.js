@@ -14,18 +14,20 @@ const SALT_LENGTH = 10;
 const hashPassword = async (password) =>
   await bcrypt.hash(password, SALT_LENGTH);
 
+// Available permissions
 const PERMISSIONS = {
   read: "read",
   write: "write",
   delete: "delete",
 };
 
+// Available roles
 const ROLES = {
   admin: "admin",
   user: "user",
 };
 
-// permissions for each role
+// Permissions of each role
 const ROLE_PERMISSIONS = {
   [ROLES.admin]: [PERMISSIONS.read, PERMISSIONS.write, PERMISSIONS.delete],
   [ROLES.user]: [PERMISSIONS.read],
