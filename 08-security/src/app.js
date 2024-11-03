@@ -14,12 +14,20 @@ const SALT_LENGTH = 10;
 const hashPassword = async (password) =>
   await bcrypt.hash(password, SALT_LENGTH);
 
-// Available permissions
-const PERMISSIONS = {
+// Operations
+const OPERATIONS = {
   read: "read",
   write: "write",
   delete: "delete",
 };
+
+// Available resources
+const RESOURCES = {
+  user: "user",
+};
+
+// Util: create permission
+const permission = (resource, operation) => `${resource}:${operation}`;
 
 // Available roles
 const ROLES = {
@@ -29,8 +37,12 @@ const ROLES = {
 
 // Permissions of each role
 const ROLE_PERMISSIONS = {
-  [ROLES.admin]: [PERMISSIONS.read, PERMISSIONS.write, PERMISSIONS.delete],
-  [ROLES.user]: [PERMISSIONS.read],
+  [ROLES.admin]: [
+    permission(OPERATIONS.read, RESOURCES.user),
+    permission(OPERATIONS.write, RESOURCES.user),
+    permission(OPERATIONS.delete, RESOURCES.user),
+  ],
+  [ROLES.user]: [permission(OPERATIONS.read, RESOURCES.user)],
 };
 
 // Create sample users
@@ -102,7 +114,10 @@ const checkPermissions = (requiredPermissions) => (req, res, next) => {
 app.patch(
   "/update",
   checkAuthentication,
-  checkPermissions([PERMISSIONS.read, PERMISSIONS.write]),
+  checkPermissions([
+    permission(RESOURCES.user, OPERATIONS.read),
+    permission(RESOURCES.user, OPERATIONS.write),
+  ]),
   (req, res) => {
     res.json({ message: "You have access to update data" });
   }
