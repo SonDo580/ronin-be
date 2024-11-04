@@ -98,12 +98,13 @@ const checkAuthentication = (req, res, next) => {
 
 // Middleware to check permissions (place after checkAuthentication)
 const checkPermissions = (requiredPermissions) => (req, res, next) => {
-  const rolePermissions = ROLE_PERMISSIONS[req.user.role];
-  if (
-    !rolePermissions.every((permission) =>
-      requiredPermissions.includes(permission)
-    )
-  ) {
+  const rolePermissionSet = new Set(ROLE_PERMISSIONS[req.user.role]);
+
+  const hasAllPermissions = requiredPermissions.every((permission) =>
+    rolePermissionSet.has(permission)
+  );
+
+  if (!hasAllPermissions) {
     res.status(403).json({ message: "Forbidden" });
   }
 
