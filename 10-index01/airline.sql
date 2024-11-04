@@ -8,7 +8,12 @@
 -- updated_at TIMESTAMPTZ DEFAULT NOW(),
 -- updated_by BIGINT
 
--- Assume that the currency is USD
+-- Note:
+-- - Assume that the currency is USD
+-- - Create indexes on the following tables: 
+--   flights, passengers, bookings, booking_directions, tickets, transactions
+-- - Some tables don't need additional indexes. 
+--   We can use their primary key.
 
 CREATE TABLE airplanes (
     airplane_code VARCHAR(10) PRIMARY KEY,-- ex: "A320"
