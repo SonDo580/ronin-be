@@ -25,8 +25,8 @@ echo "Workspace setup complete!"
 
 # Note:
 # &: for running the command in the background
-# &>/dev/null: redirects the command standard output to the null device 
-#              (prevent messages from being displayed)
+# &>/dev/null: redirects both standard output and standard error to /dev/null 
+#              (which discards any data sent to it)
 
 # Make the script executable: chmod +x workspace.sh
 # Run the script: ./workspace.sh
