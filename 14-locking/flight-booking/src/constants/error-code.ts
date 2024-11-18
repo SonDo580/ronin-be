@@ -1,0 +1,6 @@
+export enum ErrorCode {
+  // Booking
+  SEAT_NOT_FOUND = 'SEAT_NOT_FOUND',
+  SEAT_NOT_AVAILABLE = 'SEAT_NOT_AVAILABLE',
+  SHOULD_RETRY = 'SHOULD_RETRY',
+}
