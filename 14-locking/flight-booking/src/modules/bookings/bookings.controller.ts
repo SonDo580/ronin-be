@@ -6,16 +6,18 @@ import { CreateBookingDTO } from './dto/create-booking.dto';
 export class BookingsController {
   constructor(private readonly bookingService: BookingsService) {}
 
+  // Pessimistic Locking
   @Post('/pessimistic')
   async bookSeatPessimistic(@Body() dto: CreateBookingDTO) {
     return this.bookingService.bookSeatPessimistic(dto);
   }
 
-  @Post('/optimistic')
-  async bookSeatOptimistic(
+  // Combine Distributed Lock and Optimistic Lock
+  @Post('/optimistic-distributed')
+  async bookSeatOptimisticDistributed(
     @Body()
     dto: CreateBookingDTO,
   ) {
-    return this.bookingService.bookSeatOptimistic(dto);
+    return this.bookingService.bookSeatOptimisticDistributed(dto);
   }
 }
