@@ -67,11 +67,11 @@ export class BookingsService {
     flightId,
     seatCode,
   }: CreateBookingDTO) {
-    const lockKey = `seat_lock:${flightId}:${seatCode}`;
+    const resource = `seat_lock:${flightId}:${seatCode}`;
 
     // Attempt to acquire the distributed lock
-    const acquireLockSuccess = await this.redisService.acquireLock(lockKey);
-    if (!acquireLockSuccess) {
+    const lock = await this.redisService.acquireLock(resource);
+    if (!lock) {
       throw new ConflictException(ErrorCode.SEAT_BEING_BOOKED_BY_OTHER_REQUEST);
     }
 
@@ -130,7 +130,7 @@ export class BookingsService {
       });
     } finally {
       // Release the distributed lock after processing the request
-      await this.redisService.releaseLock(lockKey);
+      await this.redisService.releaseLock(lock);
     }
   }
 }
