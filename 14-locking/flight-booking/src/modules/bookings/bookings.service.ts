@@ -54,8 +54,8 @@ export class BookingsService {
       });
 
       await Promise.all([
-        manager.save(seatAvailability),
-        manager.save(booking),
+        manager.save(SeatAvailability, seatAvailability),
+        manager.save(Booking, booking),
       ]);
 
       return { bookingId: booking.id };
