@@ -9,7 +9,7 @@ import {
 import { Booking } from './entities/booking.entity';
 import { RedisService } from '../redis/redis.service';
 
-describe('Test Bookings Service', () => {
+describe('Bookings Service Unit Tests', () => {
   let bookingsService: BookingsService;
   let dataSourceMock: Partial<DataSource>;
   let redisServiceMock: Partial<RedisService>;
