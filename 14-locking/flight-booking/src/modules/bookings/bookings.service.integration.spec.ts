@@ -120,19 +120,22 @@ describe('BookingsService Integration Tests', () => {
       });
 
       // Simulate 2 requests trying to lock the same seat
-      const bookingPromise =
-        bookingsService.bookSeatPessimistic(bookingPayload);
-      const duplicateBookingPromise =
-        bookingsService.bookSeatPessimistic(bookingPayload);
-
       const [result1, result2] = await Promise.allSettled([
-        bookingPromise,
-        duplicateBookingPromise,
+        bookingsService.bookSeatPessimistic(bookingPayload),
+        bookingsService.bookSeatPessimistic(bookingPayload),
       ]);
 
-      // Only 1 booking should be successful
-      expect(result1.status).toBe('fulfilled');
-      expect(result2.status).toBe('rejected');
+      // Assert: 1 request succeeds, the other fails with a ConflictException
+      const fulfilled = [result1, result2].find(
+        (result) => result.status === 'fulfilled',
+      );
+      const rejected = [result1, result2].find(
+        (result) => result.status === 'rejected',
+      );
+
+      expect(fulfilled).toBeDefined(); // Ensure one request succeeded
+      expect(rejected).toBeDefined(); // Ensure one request failed
+      // expect(rejected.reason).toBeInstanceOf(ConflictException);
     });
   });
 });

@@ -3,7 +3,6 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { DataSource } from 'typeorm';
 import { CreateBookingDTO } from './dto/create-booking.dto';
 import {
   SeatAvailability,
@@ -12,17 +11,17 @@ import {
 import { Booking, BookingStatus } from './entities/booking.entity';
 import { ErrorCode } from 'src/constants/error-code';
 import { RedisService } from '../redis/redis.service';
+import { dataSource } from '../database/data-source';
 
 @Injectable()
 export class BookingsService {
   constructor(
-    private readonly dataSource: DataSource,
     private readonly redisService: RedisService,
   ) {}
 
   // Pessimistic Locking
   async bookSeatPessimistic({ flightId, seatCode }: CreateBookingDTO) {
-    return this.dataSource.transaction(async (manager) => {
+    return await dataSource.transaction(async (manager) => {
       // Lock the row using a pessimistic write lock
       // (SELECT ... FOR UPDATE)
       const seatAvailability = await manager
@@ -76,7 +75,7 @@ export class BookingsService {
     }
 
     try {
-      return await this.dataSource.transaction(async (manager) => {
+      return await dataSource.transaction(async (manager) => {
         const seatAvailabilityRepository =
           manager.getRepository(SeatAvailability);
         const bookingRepository = manager.getRepository(Booking);
