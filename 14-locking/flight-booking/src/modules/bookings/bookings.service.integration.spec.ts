@@ -10,9 +10,9 @@ import { RedisService } from '../redis/redis.service';
 import { NotFoundException, ConflictException } from '@nestjs/common';
 
 // Note:
-// - should use separate database and redis instances for testing
 // - run database and redis: docker compose up
 // - start the application: npm run start:dev
+// - run migrations: npm run migration:run
 
 describe('BookingsService Integration Tests', () => {
   let bookingsService: BookingsService;
