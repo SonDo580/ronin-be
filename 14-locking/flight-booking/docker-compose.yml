@@ -4,9 +4,10 @@ services:
     image: redis:latest
     ports:
       - '6380:6379'
+
   postgres:
     image: postgres:15
-    container_name: airlines
+    container_name: airlines-db
     restart: always
     environment:
       POSTGRES_USER: user
@@ -16,5 +17,20 @@ services:
       - '5433:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
+  
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: flight-booking-app
+    restart: always
+    environment:
+      DATABASE_URL: postgres://user:password@postgres:5432/airlines
+      REDIS_URL: redis://redis:6379
+    ports:
+      - '5000:5000'
+    depends_on:
+      - postgres
+      - redis
 volumes:
   postgres_data:
